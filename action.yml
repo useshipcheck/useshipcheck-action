@@ -1,0 +1,38 @@
+name: ShipCheck
+description: Run a passive ShipCheck checkup and update one pull request comment with the grade.
+author: ShipCheck
+branding:
+  icon: shield
+  color: green
+inputs:
+  url:
+    description: https URL of the app to check
+    required: true
+  api-token:
+    description: ShipCheck API token for a full checkup. Leave empty for a free passive preview.
+    required: false
+  fail-on-grade:
+    description: Fail when the grade is this letter or worse. A is best, F is worst. Example D.
+    required: false
+  comment:
+    description: Post or update one sticky pull request comment
+    required: false
+    default: "true"
+outputs:
+  grade:
+    description: Letter grade from the checkup
+    value: ${{ steps.checkup.outputs.grade }}
+  share-url:
+    description: Public score card. No finding details.
+    value: ${{ steps.checkup.outputs.share-url }}
+runs:
+  using: composite
+  steps:
+    - id: checkup
+      shell: bash
+      env:
+        INPUT_URL: ${{ inputs.url }}
+        INPUT_API_TOKEN: ${{ inputs.api-token }}
+        INPUT_FAIL_ON_GRADE: ${{ inputs.fail-on-grade }}
+        INPUT_COMMENT: ${{ inputs.comment }}
+      run: node "${{ github.action_path }}/src/run.mjs"

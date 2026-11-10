@@ -1,0 +1,14 @@
+{
+  "name": "useshipcheck-action",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GitHub Action that runs a ShipCheck checkup and comments on the pull request.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
